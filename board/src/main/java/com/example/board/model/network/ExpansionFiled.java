@@ -16,10 +16,11 @@ public class ExpansionFiled<T> {
     private String description;
     private T data;
 
-    public static <T> ExpansionFiled<T> ok(Integer result_code) {
+    public static <T> ExpansionFiled<T> ok(Integer result_code, String description) {
         return (ExpansionFiled<T>) ExpansionFiled.builder()
                 .transaction_time(LocalDateTime.now())
                 .result_code(result_code)
+                .description(description)
                 .build();
     }
 

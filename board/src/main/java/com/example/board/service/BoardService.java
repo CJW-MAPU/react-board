@@ -31,9 +31,9 @@ public class BoardService {
         List<Board> boards = boardRepository.findAll();
 
         if (boards == null) {
-            return ExpansionFiled.error(302, "There are no posts on the bulletin board.");
+            return ExpansionFiled.error(402, "There are no posts on the bulletin board.");
         } else {
-            return ExpansionFiled.ok(toBoardDtoList(boards), 301);
+            return ExpansionFiled.ok(toBoardDtoList(boards), 401);
         }
     }
 
@@ -54,9 +54,9 @@ public class BoardService {
                     .comments(toCommentDtoList(comments))
                     .build();
 
-            return ExpansionFiled.ok(boardDto, 501);
+            return ExpansionFiled.ok(boardDto, 403);
         } else {
-            return ExpansionFiled.error(502, "The post could not be loaded.");
+            return ExpansionFiled.error(404, "The post could not be loaded.");
         }
     }
 
@@ -74,7 +74,39 @@ public class BoardService {
                 .writer(boardCheck.getUser().getUsername())
                 .build();
 
-        return ExpansionFiled.ok(ret, 401);
+        return ExpansionFiled.ok(ret, 501);
+    }
+
+    public ExpansionFiled<BoardDto> update(Board board, Integer id) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+
+        if (optionalBoard.isPresent()) {
+            Board boardCheck = optionalBoard.get();
+            boardCheck.setTitle(board.getTitle());
+            boardCheck.setContent(board.getContent());
+            Board save = boardRepository.save(boardCheck);
+
+            BoardDto ret = BoardDto.builder()
+                    .id(save.getId())
+                    .title(save.getTitle())
+                    .content(save.getContent())
+                    .writer(save.getUser().getUsername())
+                    .build();
+
+            return ExpansionFiled.ok(ret, 601);
+        } else {
+            return ExpansionFiled.error(602, "The post was not deleted.");
+        }
+    }
+
+    public ExpansionFiled<BoardDto> delete(Integer id) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+
+        optionalBoard.ifPresent(value -> {
+            boardRepository.delete(value);
+        });
+
+        return ExpansionFiled.ok(603, "The post has been deleted normally.");
     }
 
     private static List<CommentDto> toCommentDtoList(List<Comment> comments) {

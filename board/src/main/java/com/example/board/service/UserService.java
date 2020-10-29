@@ -20,7 +20,7 @@ public class UserService {
             return ExpansionFiled.error(202, "Please check that the Username is duplicated.");
         } else {
             userRepository.save(user);
-            return ExpansionFiled.ok(201);
+            return ExpansionFiled.ok(201, "Membership registration was successful.");
         }
     }
 
@@ -42,5 +42,25 @@ public class UserService {
                 return ExpansionFiled.ok(ret, 101);
             }
         }
+    }
+
+    public ExpansionFiled<UserDto> update(User user) {
+        User userCheck = userRepository.findByUsername(user.getUsername());
+
+        if (userCheck != null) {
+            userCheck.setEmail(user.getEmail());
+            userRepository.save(userCheck);
+
+            return ExpansionFiled.ok(301, "You have successfully modified your member information.");
+        } else {
+            return ExpansionFiled.error(302, "Failed to edit member information.");
+        }
+    }
+
+    public ExpansionFiled<UserDto> delete(String username) {
+        User user = userRepository.findByUsername(username);
+        userRepository.delete(user);
+
+        return ExpansionFiled.ok(303, "Your account has been deleted normally.");
     }
 }

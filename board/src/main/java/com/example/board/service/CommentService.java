@@ -43,9 +43,9 @@ public class CommentService {
                     .board_id(commentCheck.getBoard().getId())
                     .build();
 
-            return ExpansionFiled.ok(ret, 601);
+            return ExpansionFiled.ok(ret, 701);
         } else {
-            return ExpansionFiled.error(402, "Failed to write a comment.");
+            return ExpansionFiled.error(702, "Failed to write a comment.");
         }
     }
 }

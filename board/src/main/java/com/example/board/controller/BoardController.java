@@ -30,4 +30,14 @@ public class BoardController {
     public ExpansionFiled<BoardDto> create(@RequestBody ExpansionFiled<BoardDto> request) {
         return boardService.create(request.getData().toEntity(), request.getData().getWriter());
     }
+
+    @PutMapping
+    public ExpansionFiled<BoardDto> update(@RequestBody ExpansionFiled<BoardDto> request) {
+        return boardService.update(request.getData().toEntity(), request.getData().getId());
+    }
+
+    @DeleteMapping("/{id}")
+    public ExpansionFiled<BoardDto> delete(@PathVariable("id") Integer id) {
+        return boardService.delete(id);
+    }
 }

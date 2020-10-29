@@ -10,5 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    UserService userService;
 
+    @PutMapping
+    public ExpansionFiled<UserDto> update(@RequestBody ExpansionFiled<UserDto> request) {
+        return userService.update(request.getData().toEntity());
+    }
+
+    @DeleteMapping("/{username}")
+    public ExpansionFiled<UserDto> delete(@PathVariable("username") String username) {
+        return userService.delete(username);
+    }
 }

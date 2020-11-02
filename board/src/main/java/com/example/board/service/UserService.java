@@ -49,9 +49,16 @@ public class UserService {
 
         if (userCheck != null) {
             userCheck.setEmail(user.getEmail());
-            userRepository.save(userCheck);
+            User save = userRepository.save(userCheck);
 
-            return ExpansionFiled.ok(301, "You have successfully modified your member information.");
+            UserDto ret = UserDto.builder()
+                    .id(save.getId())
+                    .username(save.getUsername())
+                    .password(null)
+                    .email(save.getEmail())
+                    .build();
+
+            return ExpansionFiled.ok(ret, 301);
         } else {
             return ExpansionFiled.error(302, "Failed to edit member information.");
         }

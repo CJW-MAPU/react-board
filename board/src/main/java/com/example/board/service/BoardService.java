@@ -95,7 +95,7 @@ public class BoardService {
 
             return ExpansionFiled.ok(ret, 601);
         } else {
-            return ExpansionFiled.error(602, "The post was not deleted.");
+            return ExpansionFiled.error(602, "The post was not properly modified.");
         }
     }
 
